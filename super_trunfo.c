@@ -7,101 +7,119 @@ typedef struct
 	char letraEstado;
 	char codigoCarta[4];
 	char nomeCidade[51];
-	int populacaoCidade;
-	float areaCidade;
-	float pibCidade;
-	int pontosTuristicosCidade;
+	unsigned long int populacao;
+	float area;
+	float pib;
+	int pontosTuristicos;
 	float densidadePopulacional;
 	float pibPerCapita;
+	float superPoder;
+
 } Carta;
 
-int main()
+int main() 
 {	
-	Carta cartas[2];
+	int quantidadeCartas = 2; // Quantidade de cartas a serem cadastradas
+
+	Carta cartas[quantidadeCartas];
 	
-	// Cadastro da primeira carta
-	printf("Informe a seguir os dados da sua 1ª carta para o jogo Super Trunfo.\n");
+	int i = 0;
+	while (i < quantidadeCartas)
+	{
+		char confirmacao = 'n'; //  
+		int cartaNumero = i + 1;
+			
+		printf("Informe a seguir os dados da sua %dª carta para o jogo Super Trunfo.\n", cartaNumero);
 	
-	printf("Letra inicial do estado (A-H): ");
-	scanf(" %c", &cartas[0].letraEstado);
+		printf("Letra inicial do estado: ");
+		scanf(" %c", &cartas[i].letraEstado);
 
-	printf("Código da carta (ex: %c01): ", cartas[0].letraEstado);
-	scanf("%s", cartas[0].codigoCarta);
+		printf("Código da carta (ex: %c01): ", cartas[i].letraEstado);
+		scanf("%3s", cartas[i].codigoCarta);
 
-	printf("Nome da cidade (apenas uma palavra): ");
-	scanf("%s", cartas[0].nomeCidade);
+		printf("Nome da cidade (apenas uma palavra): ");
+		scanf("%50s", cartas[i].nomeCidade);
 
-	printf("População da cidade %s: ", cartas[0].nomeCidade);
-	scanf("%d", &cartas[0].populacaoCidade);
+		printf("População da cidade %s: ", cartas[i].nomeCidade);
+		scanf("%lu", &cartas[i].populacao);
 
-	printf("Área da cidade %s em km²: ", cartas[0].nomeCidade);
-	scanf("%f", &cartas[0].areaCidade);
+		printf("Área da cidade %s em km²: ", cartas[i].nomeCidade);
+		scanf("%f", &cartas[i].area);
 
-	printf("PIB da cidade %s em milhões de reais: ", cartas[0].nomeCidade);
-	scanf("%f", &cartas[0].pibCidade);
+		printf("PIB da cidade %s em bilhões de reais: ", cartas[i].nomeCidade);
+		scanf("%f", &cartas[i].pib);
 
-	printf("Número de pontos turísticos da cidade %s: ", cartas[0].nomeCidade);
-	scanf("%d", &cartas[0].pontosTuristicosCidade);
+		printf("Número de pontos turísticos da cidade %s: ", cartas[i].nomeCidade);
+		scanf("%d", &cartas[i].pontosTuristicos);
 
-	printf("\n1ª Carta cadastrada com os seguintes dados:\n");
-	printf("Estado: %c\n", cartas[0].letraEstado);
-	printf("Código: %s\n", cartas[0].codigoCarta);
-	printf("Nome da Cidade: %s\n", cartas[0].nomeCidade);
-	printf("População: %d\n", cartas[0].populacaoCidade);
-	printf("Área: %.2f km²\n", cartas[0].areaCidade);
-	printf("PIB: %.2f bilhões de reais\n", cartas[0].pibCidade);
-	printf("Número de pontos turísticos: %d\n", cartas[0].pontosTuristicosCidade);
-
-	// Cálculo da densidade populacional
-	cartas[0].densidadePopulacional = cartas[0].populacaoCidade / cartas[0].areaCidade;
-	printf("Densidade populacional: %.2f hab/km²\n", cartas[0].densidadePopulacional);
-
-	//Cálculo do pib per capita
-	cartas[0].pibPerCapita = (cartas[0].pibCidade * 1000000000) / cartas[0].populacaoCidade;
-	printf("Pib per capita: %.2f reais\n\n", cartas[0].pibPerCapita);
-
-	// Cadastro da segunda carta
-	printf("Informe a seguir os dados da sua 2ª carta para o jogo Super Trunfo.\n");
+		printf("\n%dª Carta cadastrada com os seguintes dados:\n", cartaNumero);
+		printf("Estado: %c\n", cartas[i].letraEstado);
+		printf("Código: %s\n", cartas[i].codigoCarta);
+		printf("Nome da Cidade: %s\n", cartas[i].nomeCidade);
+		printf("População: %lu\n", cartas[i].populacao);
+		printf("Área: %.2f km²\n", cartas[i].area);
+		printf("PIB: %.2f bilhões de reais\n", cartas[i].pib);
+		printf("Número de pontos turísticos: %d\n", cartas[i].pontosTuristicos);
 	
-	printf("Letra inicial do estado (A-H): ");
-	scanf(" %c", &cartas[1].letraEstado);
+		//Cálculo da densidade populacional
+		cartas[i].densidadePopulacional = cartas[i].populacao / cartas[i].area;
+		printf("Densidade populacional: %.2f hab/km²\n", cartas[i].densidadePopulacional);	
+		
+		//Cálculo do pib per capita
+		cartas[i].pibPerCapita = (cartas[i].pib * 1000000000) / cartas[i].populacao;
+		printf("Pib per capita: %.2f reais\n", cartas[i].pibPerCapita);
+		
+		//Cálculo do Super Poder
+		cartas[i].superPoder = (float)cartas[i].populacao + cartas[i].area + (cartas[i].pib * 1000000000) + (float)cartas[i].pontosTuristicos + cartas[i].pibPerCapita + (1 / cartas[i].densidadePopulacional);
+		printf("Super poder: %.2f\n", cartas[i].superPoder);
 
-	printf("Código da carta (ex: %c01): ", cartas[1].letraEstado);
-	scanf("%s", cartas[1].codigoCarta);
+		 // Loop para verificar se digitou outra opção além de 's' e 'n' na confirmação do registro da carta
+		do
+		{
+			if (confirmacao !='s' && confirmacao !='n')
+				printf("Opção inválida!\n");
 
-	printf("Nome da cidade (apenas uma palavra): ");
-	scanf("%s", cartas[1].nomeCidade);
+			printf("\nConfirma os dados? (s/n): ");
+			scanf(" %c", &confirmacao);
+		} while (confirmacao !='s' && confirmacao !='n');
+		
+		i++;
+		
+		if (confirmacao == 'n')  
+			 i--;
+	}
 
-	printf("População da cidade %s: ", cartas[1].nomeCidade);
-	scanf("%d", &cartas[1].populacaoCidade);
+	printf("Todas as cartas foram cadastradas com sucesso!\n\n");
 
-	printf("Área da cidade %s em km²: ", cartas[1].nomeCidade);
-	scanf("%f", &cartas[1].areaCidade);
-
-	printf("PIB da cidade %s em reais: ", cartas[1].nomeCidade);
-	scanf("%f", &cartas[1].pibCidade);
-
-	printf("Número de pontos turísticos da cidade %s: ", cartas[1].nomeCidade);
-	scanf("%d", &cartas[1].pontosTuristicosCidade);
-
-	printf("\n2ª Carta cadastrada com os seguintes dados:\n");
-	printf("Estado: %c\n", cartas[1].letraEstado);
-	printf("Código: %s\n", cartas[1].codigoCarta);
-	printf("Nome da Cidade: %s\n", cartas[1].nomeCidade);
-	printf("População: %d\n", cartas[1].populacaoCidade);
-	printf("Área: %.2f km²\n", cartas[1].areaCidade);
-	printf("PIB: %.2f bilhões de reais\n", cartas[1].pibCidade);
-	printf("Número de pontos turísticos: %d\n", cartas[1].pontosTuristicosCidade);
+	printf("Comparação de cartas:\n");
 	
-	// Cálculo da densidade populacional
-	cartas[1].densidadePopulacional = cartas[1].populacaoCidade / cartas[1].areaCidade;
-	printf("Densidade populacional: %.2f hab/km²\n", cartas[1].densidadePopulacional);
-
-	//Cálculo do pib per capita
-	cartas[1].pibPerCapita = (cartas[1].pibCidade * 1000000000) / cartas[1].populacaoCidade;
-	printf("Pib per capita: %.2f reais\n\n", cartas[1].pibPerCapita);
-
-	printf("Todas as cartas foram cadastradas com sucesso!\n");
+	printf("População: Carta %d venceu (%d)\n",
+			2 - (cartas[0].populacao > cartas[1].populacao),
+			cartas[0].populacao > cartas[1].populacao);
+	
+	printf("Área: Carta %d venceu (%d)\n",
+			2 - (cartas[0].area > cartas[1].area),
+			cartas[0].area > cartas[1].area);
+	
+	printf("Pib: Carta %d venceu (%d)\n",
+			2 - (cartas[0].pib > cartas[1].pib),
+			cartas[0].pib > cartas[1].pib);
+	
+	printf("Pontos turísticos: Carta %d venceu (%d)\n",
+			2 - (cartas[0].pontosTuristicos > cartas[1].pontosTuristicos),
+			cartas[0].pontosTuristicos > cartas[1].pontosTuristicos);
+	
+	printf("Densidade populacional: Carta %d venceu (%d)\n",
+			2 - (cartas[0].densidadePopulacional > cartas[1].densidadePopulacional),
+			cartas[0].densidadePopulacional > cartas[1].densidadePopulacional);
+	
+	printf("Pib per capita: Carta %d venceu (%d)\n",
+			2 - (cartas[0].pibPerCapita > cartas[1].pibPerCapita),
+			cartas[0].pibPerCapita > cartas[1].pibPerCapita);
+	
+	printf("Super poder: Carta %d venceu (%d)\n",
+			2 - (cartas[0].superPoder > cartas[1].superPoder),
+			cartas[0].superPoder > cartas[1].superPoder);
 
 	return 0;
 }
