@@ -110,8 +110,8 @@ int main()
 			cartas[0].pontosTuristicos > cartas[1].pontosTuristicos);
 	
 	printf("Densidade populacional: Carta %d venceu (%d)\n",
-			2 - (cartas[0].densidadePopulacional > cartas[1].densidadePopulacional),
-			cartas[0].densidadePopulacional > cartas[1].densidadePopulacional);
+			2 - (cartas[0].densidadePopulacional < cartas[1].densidadePopulacional),
+			cartas[0].densidadePopulacional < cartas[1].densidadePopulacional);
 	
 	printf("Pib per capita: Carta %d venceu (%d)\n",
 			2 - (cartas[0].pibPerCapita > cartas[1].pibPerCapita),
